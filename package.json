@@ -2,7 +2,7 @@
   "name": "lastpass",
   "version": "1.0.0",
   "description": "A Lastpass client for Node.js!",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "dependencies": {
     "bluebird": "^3.4.1",
     "es6-error": "^3.0.1",
