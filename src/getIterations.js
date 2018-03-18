@@ -1,13 +1,13 @@
 import fetch from 'node-fetch';
 import FormData from 'form-data';
-import getEndpoint from './getEndpoint';
+import { API_ITERATIONS } from './apiEndpoints';
 
 export default async (username) => {
   const form = new FormData();
   form.append('email', username);
 
   const result = await fetch(
-    getEndpoint('iterations'),
+    API_ITERATIONS,
     {
       method: 'POST',
       body: form,

@@ -4,7 +4,7 @@ import { parseString } from 'xml2js';
 import { promisify } from 'util';
 import getIterations from './getIterations';
 import getHash from './getHash';
-import getEndpoint from './getEndpoint';
+import { API_LOGIN } from './apiEndpoints';
 import LastpassError from './lastpassError';
 
 const parseXmlAsync = promisify(parseString);
@@ -21,7 +21,7 @@ export default async (username, password, twoFactor) => {
   if (twoFactor) form.append('otp', twoFactor);
 
   const result = await fetch(
-    getEndpoint('login'),
+    API_LOGIN,
     {
       method: 'POST',
       body: form,

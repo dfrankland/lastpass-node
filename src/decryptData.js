@@ -18,13 +18,15 @@ export default (data, key) => {
 
   if (length === 0) return '';
 
-  let decrypted;
+  const decryptChunk = (
+    data.slice(0, 1).toString('utf8') === '!' &&
+    length % 16 === 1 &&
+    length > 32
+  );
 
-  if (data.slice(0, 1).toString('utf8') === '!' && length % 16 === 1 && length > 32) {
-    decrypted = decrypt(data.slice(17, length), key, data.slice(1, 17));
-  } else {
-    decrypted = decrypt(data, key);
-  }
-
-  return decrypted;
+  return decryptChunk ? (
+    decrypt(data.slice(17, length), key, data.slice(1, 17))
+  ) : (
+    decrypt(data, key)
+  );
 };

@@ -14,7 +14,7 @@ const accessAsync = promisify(access);
 const readFileAsync = promisify(readFile);
 const writeFileAsync = promisify(writeFile);
 
-const Lastpass = class {
+export default class Lastpass {
   constructor(username) {
     this.username = username;
   }
@@ -114,6 +114,4 @@ const Lastpass = class {
     if (!search.keyword) return accounts;
     return filter(accounts, search.keyword, { ...{ key: 'name' }, ...search.options });
   }
-};
-
-export default Lastpass;
+}

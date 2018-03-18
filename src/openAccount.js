@@ -1,8 +1,9 @@
 import decryptData from './decryptData';
 
 const PayloadReader = class {
-  constructor(newBuffer) {
+  constructor(newBuffer, key) {
     this.newBuffer = newBuffer;
+    this.key = key;
   }
 
   readPayload() {
@@ -13,27 +14,39 @@ const PayloadReader = class {
 
     return content;
   }
+
+  readPayloadToUtf8() {
+    return this.readPayload().toString('utf8');
+  }
+
+  readPayloadFromHexToUtf8() {
+    return Buffer.from(this.readPayloadToUtf8(), 'hex').toString('utf8');
+  }
+
+  readAndDecryptPayloadToUtf8() {
+    return decryptData(this.readPayload(), this.key).toString('utf8');
+  }
 };
 
 export default (account, key) => {
-  const payloadReader = new PayloadReader(account);
+  const payloadReader = new PayloadReader(account, key);
 
-  const id = payloadReader.readPayload().toString('utf8');
-  const name = decryptData(payloadReader.readPayload(), key).toString('utf8');
-  const group = decryptData(payloadReader.readPayload(), key).toString('utf8');
-  const url = Buffer.from(payloadReader.readPayload().toString('utf8'), 'hex').toString('utf8');
-  const notes = decryptData(payloadReader.readPayload(), key).toString('utf8');
-
-  payloadReader.readPayload();
-  payloadReader.readPayload();
-
-  const username = decryptData(payloadReader.readPayload(), key).toString('utf8');
-  const password = decryptData(payloadReader.readPayload(), key).toString('utf8');
+  const id = payloadReader.readPayloadToUtf8();
+  const name = payloadReader.readAndDecryptPayloadToUtf8();
+  const group = payloadReader.readAndDecryptPayloadToUtf8();
+  const url = payloadReader.readPayloadFromHexToUtf8();
+  const notes = payloadReader.readAndDecryptPayloadToUtf8();
 
   payloadReader.readPayload();
   payloadReader.readPayload();
 
-  const secureNote = payloadReader.readPayload().toString('utf8') === '1';
+  const username = payloadReader.readAndDecryptPayloadToUtf8();
+  const password = payloadReader.readAndDecryptPayloadToUtf8();
+
+  payloadReader.readPayload();
+  payloadReader.readPayload();
+
+  const secureNote = payloadReader.readPayloadToUtf8() === '1';
 
   return {
     id,
