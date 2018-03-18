@@ -13,34 +13,38 @@ const endpoint = getEndpoint(
       hasplugin: '1.0.0',
       requestsrc: 'cli',
     })
-  }`
+  }`,
 );
 
-export default async session => {
+export default async (session) => {
   const result = await fetch(
     endpoint,
     {
       credentials: 'include',
       headers: {
         Cookie: stringify(
-          { PHPSESSID: encodeURIComponent(session) }, ';', '='
+          {
+            PHPSESSID: encodeURIComponent(session),
+          },
+          ';',
+          '=',
         ),
       },
-    }
+    },
   );
 
-  const body = result.body;
+  const { body } = result;
 
   let vaultBuffer = Buffer.from([]);
-  body.on('data', buffer => {
+  body.on('data', (buffer) => {
     vaultBuffer = Buffer.concat([vaultBuffer, buffer]);
   });
 
-  await new Promise(
-    resolve => {
+  await new Promise((
+    (resolve) => {
       body.on('end', resolve);
     }
-  );
+  ));
 
   if (!result.ok) {
     throw new LastpassError({

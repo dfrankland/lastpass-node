@@ -1,14 +1,14 @@
 import { resolve as resolvePath } from 'path';
 import { homedir } from 'os';
 import { access, readFile, writeFile, R_OK } from 'fs';
-import { promisify } from 'bluebird';
+import { promisify } from 'util';
 import sanitize from 'sanitize-filename';
 import { filter } from 'fuzzaldrin';
-import getSession from './lib/getSession';
-import getVault from './lib/getVault';
-import getKey from './lib/getKey';
-import openVault from './lib/openVault';
-import LastpassError from './lib/lastpassError';
+import getSession from './getSession';
+import getVault from './getVault';
+import getKey from './getKey';
+import openVault from './openVault';
+import LastpassError from './lastpassError';
 
 const accessAsync = promisify(access);
 const readFileAsync = promisify(readFile);
@@ -37,7 +37,7 @@ const Lastpass = class {
           homedir(),
           `./.lastpass-vault${
             this.username ? `-${sanitize(this.username)}` : ''
-          }`
+          }`,
         )
       );
     }
@@ -83,7 +83,7 @@ const Lastpass = class {
         {
           ...{ encoding: 'binary', mode: 0o400 },
           ...options,
-        }
+        },
       );
     } catch (err) {
       throw new LastpassError({

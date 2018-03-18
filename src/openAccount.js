@@ -1,35 +1,39 @@
 import decryptData from './decryptData';
 
-let newBuffer;
+const PayloadReader = class {
+  constructor(newBuffer) {
+    this.newBuffer = newBuffer;
+  }
 
-const readPayload = () => {
-  const size = newBuffer.slice(0, 4).readUInt32BE(0) + 4;
-  const content = newBuffer.slice(4, size);
+  readPayload() {
+    const size = this.newBuffer.slice(0, 4).readUInt32BE(0) + 4;
+    const content = this.newBuffer.slice(4, size);
 
-  newBuffer = newBuffer.slice(size, newBuffer.length);
+    this.newBuffer = this.newBuffer.slice(size, this.newBuffer.length);
 
-  return content;
+    return content;
+  }
 };
 
 export default (account, key) => {
-  newBuffer = account;
+  const payloadReader = new PayloadReader(account);
 
-  const id = readPayload().toString('utf8');
-  const name = decryptData(readPayload(), key).toString('utf8');
-  const group = decryptData(readPayload(), key).toString('utf8');
-  const url = Buffer.from(readPayload().toString('utf8'), 'hex').toString('utf8');
-  const notes = decryptData(readPayload(), key).toString('utf8');
+  const id = payloadReader.readPayload().toString('utf8');
+  const name = decryptData(payloadReader.readPayload(), key).toString('utf8');
+  const group = decryptData(payloadReader.readPayload(), key).toString('utf8');
+  const url = Buffer.from(payloadReader.readPayload().toString('utf8'), 'hex').toString('utf8');
+  const notes = decryptData(payloadReader.readPayload(), key).toString('utf8');
 
-  readPayload();
-  readPayload();
+  payloadReader.readPayload();
+  payloadReader.readPayload();
 
-  const username = decryptData(readPayload(), key).toString('utf8');
-  const password = decryptData(readPayload(), key).toString('utf8');
+  const username = decryptData(payloadReader.readPayload(), key).toString('utf8');
+  const password = decryptData(payloadReader.readPayload(), key).toString('utf8');
 
-  readPayload();
-  readPayload();
+  payloadReader.readPayload();
+  payloadReader.readPayload();
 
-  const secureNote = readPayload().toString('utf8') === '1';
+  const secureNote = payloadReader.readPayload().toString('utf8') === '1';
 
   return {
     id,

@@ -1,6 +1,8 @@
-import Lastpass from '../index';
+import Lastpass from '../src';
 import question from './question';
 import { USERNAME, PASSWORD, FILE, SEARCH } from './credentials';
+
+/* eslint-disable no-console */
 
 (async () => {
   try {

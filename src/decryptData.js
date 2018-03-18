@@ -7,16 +7,14 @@ const decrypt = (encrypted, key, iv = false) => {
 
   decipher.setAutoPadding(false);
 
-  return Buffer.concat(
-    [
-      decipher.update(encrypted),
-      decipher.final(),
-    ]
-  );
+  return Buffer.concat([
+    decipher.update(encrypted),
+    decipher.final(),
+  ]);
 };
 
 export default (data, key) => {
-  const length = data.length;
+  const { length } = data;
 
   if (length === 0) return '';
 

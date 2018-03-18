@@ -1,7 +1,7 @@
 import openAccount from './openAccount';
 
-export default async (vault, key) => {
-  let accounts = [];
+export default (vault, key) => {
+  const accounts = [];
   let newBuffer = vault;
 
   while (newBuffer.length > 0) {
@@ -14,12 +14,11 @@ export default async (vault, key) => {
     // https://github.com/detunized/lastpass-ruby/blob/master/lib/lastpass/parser.rb#L65
 
     if (id === 'ACCT') {
-      const account = await openAccount(payload, key);
-      accounts = accounts.concat(account);
+      accounts.push(openAccount(payload, key));
     }
 
     newBuffer = newBuffer.slice(size, newBuffer.length);
   }
 
-  return accounts;
+  return Promise.all(accounts);
 };

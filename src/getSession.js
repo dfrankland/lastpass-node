@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import FormData from 'form-data';
 import { parseString } from 'xml2js';
-import { promisify } from 'bluebird';
+import { promisify } from 'util';
 import getIterations from './getIterations';
 import getHash from './getHash';
 import getEndpoint from './getEndpoint';
@@ -26,7 +26,7 @@ export default async (username, password, twoFactor) => {
       method: 'POST',
       body: form,
       headers: form.getHeaders(),
-    }
+    },
   );
 
   const xml = await result.text();
@@ -53,8 +53,7 @@ export default async (username, password, twoFactor) => {
         json.response &&
         json.response.error &&
         json.response.error[0] &&
-        json.response.error[0].$ ||
-        xml
+        (json.response.error[0].$ || xml)
       ),
     });
   }

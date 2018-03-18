@@ -1,5 +1,5 @@
 import { pbkdf2 } from 'crypto';
-import { promisify } from 'bluebird';
+import { promisify } from 'util';
 import getKey from './getKey';
 
 const pbkdf2Async = promisify(pbkdf2);
