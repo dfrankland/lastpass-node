@@ -2,9 +2,11 @@ import fetch from 'node-fetch';
 import { stringify } from 'querystring';
 import htmlToText from 'html-to-text';
 import { API_GETACCTS } from './apiEndpoints';
-import LastpassError from './lastpassError';
+import getSession from './getSession';
 
-export default async (session) => {
+export default async ({ username, password, twoFactor }) => {
+  const { session, key } = await getSession({ username, password, twoFactor });
+
   const { body, ok } = await fetch(
     API_GETACCTS,
     {
@@ -29,11 +31,18 @@ export default async (session) => {
   await new Promise(resolve => body.on('end', resolve));
 
   if (!ok) {
-    throw new LastpassError({
-      title: 'Could not retrieve Lastpass vault',
-      body: htmlToText.fromString(vaultBuffer.toString('utf8'), { wordwrap: 130 }),
-    });
+    throw new Error((
+      `Could not retrieve Lastpass vault:\n${
+        htmlToText.fromString(
+          vaultBuffer.toString('utf8'),
+          { wordwrap: 130 },
+        )
+      }`
+    ));
   }
 
-  return vaultBuffer;
+  return {
+    vault: vaultBuffer,
+    key,
+  };
 };

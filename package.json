@@ -29,12 +29,11 @@
   "homepage": "https://github.com/dfrankland/lastpass-node#readme",
   "dependencies": {
     "babel-runtime": "^6.11.6",
-    "es6-error": "^4.1.1",
     "form-data": "^2.3.2",
-    "fuzzaldrin": "^2.1.0",
     "html-to-text": "^4.0.0",
     "node-fetch": "^2.1.1",
     "sanitize-filename": "^1.6.0",
+    "source-map-support": "^0.5.4",
     "xml2js": "^0.4.17"
   },
   "devDependencies": {

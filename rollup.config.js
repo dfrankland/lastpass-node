@@ -8,6 +8,8 @@ export default {
   output: {
     file: './dist/index.js',
     format: 'cjs',
+    sourcemap: true,
+    intro: 'require(\'source-map-support\').install();',
   },
   external: [
     ...Object.keys(dependencies),

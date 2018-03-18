@@ -113,7 +113,7 @@ Returns:
 
 *   `Buffer`: encrypted contents of the vault blob from Lastpass
 
-#### `getAccounts(username, password, [search])`
+#### `getAccounts(username, password)`
 
 Parameters:
 
@@ -127,17 +127,9 @@ Parameters:
     *   Type: string
     *   Required: true
 
-*   `search`: Object containing a `keyword` to search for and `options` for
-    [`fuzzaldrin`][1]. If a this object isn't provided, or a `keyword` isn't set
-    all accounts will be returned. The `options` object defaults to
-    `{ key: 'name' }`.
-
-    *   Type: object
-    *   Required: false
-
 Returns:
 
-*   `Promise`: resolves to an `Array` of matched accounts
+*   `Promise`: resolves to an `Array` of accounts
 
 ### Credit
 
