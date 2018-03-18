@@ -1,6 +1,6 @@
 {
   "name": "lastpass",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A Lastpass client for Node.js!",
   "main": "./dist/index.js",
   "dependencies": {
