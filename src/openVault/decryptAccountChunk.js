@@ -2,9 +2,9 @@ import { createDecipher, createDecipheriv } from 'crypto';
 
 const decrypt = ({ encryptedData, key, iv }) => {
   const decipher = typeof iv === 'undefined' ? (
-    createDecipheriv('aes-256-cbc', key, iv)
-  ) : (
     createDecipher('aes-256-ecb', key)
+  ) : (
+    createDecipheriv('aes-256-cbc', key, iv)
   );
 
   decipher.setAutoPadding(false);
