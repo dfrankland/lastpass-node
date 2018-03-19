@@ -1,8 +1,5 @@
 export { default as openVault } from './openVault';
-
-export { default as getRemoteVault } from './remoteVault';
-export { default as getRemoteVaultKey } from './remoteVault/getKey';
-
+export * from './remoteVault';
 export {
   filePath as getLocalVaultPath,
   write as writeLocalVault,

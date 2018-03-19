@@ -1,21 +1,26 @@
 import fetch from 'node-fetch';
 import FormData from 'form-data';
 import { parseString } from 'xml2js';
+import { pbkdf2 } from 'crypto';
 import { promisify } from 'util';
-import getHash from './getHash';
 import { API_LOGIN } from './apiEndpoints';
 
+const pbkdf2Async = promisify(pbkdf2);
 const parseXmlAsync = promisify(parseString);
 
-export default async ({ username, password, twoFactor }) => {
-  const { hash, key, iterations } = await getHash({ username, password });
-
+export default async ({
+  username,
+  password,
+  twoFactor,
+  key,
+  iterations,
+}) => {
   const form = new FormData();
   form.append('method', 'mobile');
   form.append('web', 1);
   form.append('xml', 1);
   form.append('username', username);
-  form.append('hash', hash);
+  form.append('hash', (await pbkdf2Async(key, password, 1, 32, 'sha256')).toString('hex'));
   form.append('iterations', iterations);
   form.append('imei', 'node.js');
   if (twoFactor) form.append('otp', twoFactor);
@@ -47,22 +52,15 @@ export default async ({ username, password, twoFactor }) => {
     // }
 
     throw new Error((
-      `Session API response is bad:\n${
-        (
-          json &&
-          json.response &&
-          json.response.error &&
-          json.response.error[0] &&
-          json.response.error[0].$
-        ) || (
-          xml
-        )
-      }`
+      `Session API response is bad:\n${(() => {
+        try {
+          return JSON.stringify(json);
+        } catch (err) {
+          return xml;
+        }
+      })()}`
     ));
   }
 
-  return {
-    session: json.ok.$.sessionid,
-    key,
-  };
+  return json.ok.$.sessionid;
 };
