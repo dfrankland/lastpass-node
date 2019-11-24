@@ -6,7 +6,7 @@
   "dependencies": {
     "babel-runtime": "^6.11.6",
     "bluebird": "^3.4.1",
-    "es6-error": "^3.0.1",
+    "es6-error": "^4.1.1",
     "form-data": "^1.0.0-rc4",
     "fuzzaldrin": "^2.1.0",
     "html-to-text": "^2.1.3",
