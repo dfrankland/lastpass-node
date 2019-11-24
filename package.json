@@ -17,7 +17,7 @@
   "devDependencies": {
     "babel-cli": "^6.11.4",
     "babel-plugin-transform-runtime": "^6.9.0",
-    "babel-preset-modern-node": "^2.2.1",
+    "babel-preset-modern-node": "^3.2.0",
     "babel-preset-stage-0": "^6.5.0"
   },
   "scripts": {
