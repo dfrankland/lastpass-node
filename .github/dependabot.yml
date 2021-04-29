@@ -1,0 +1,15 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: monthly
+    time: "13:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: html-to-text
+    versions:
+    - 6.0.0
+  - dependency-name: form-data
+    versions:
+    - 3.0.0
