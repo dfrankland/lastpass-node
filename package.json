@@ -9,7 +9,7 @@
     "es6-error": "^3.0.1",
     "form-data": "^1.0.0-rc4",
     "fuzzaldrin": "^2.1.0",
-    "html-to-text": "^2.1.3",
+    "html-to-text": "^7.1.1",
     "node-fetch": "^1.5.3",
     "sanitize-filename": "^1.6.0",
     "xml2js": "^0.4.17"
